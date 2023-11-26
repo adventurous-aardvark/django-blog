@@ -1,0 +1,39 @@
+<!DOCTYPE html>                                                                      
+<html>                                                                               
+    <title>Polls and More</title>
+    <head>
+    </head>                                                                    
+    <body>                                                                           
+        <div id="container">   
+            <div class="crop">
+                <img alt="Polling by Nick Youngson CC BY-SA 3.0 Alpha Stock Images"
+                src="https://www.picpedia.org/highway-signs/images/polling.jpg",
+                style="height:125px; width:600px"
+            </div>
+            {% include "polling/title.html" %} 
+            <p>&nbsp;</p>
+            <span style="font-family:Arial,Helvetica,sans-serif">
+                <p>
+                Currently there
+                {% with poll_count=polls|length %}
+                    {% if poll_count == 0 %}
+                        {{ 'are no active polls available' }}
+                    {% elif poll_count == 1 %}
+                        is one active poll
+                        {# This is a kludge to get the single poll item #}
+                        {% for poll in polls %}                        
+                            <a href="{% url 'polls:poll_detail' poll.pk %}">
+                                available to partake of</a><br>
+                        {% endfor %} 
+                    {% else %}
+                        are {{polls|length}} actve polls which are 
+                        <a href="{% url 'polls:poll_detail' %}">available to partake of</a><br>
+                    {% endif %}
+                {% endwith %}
+                Of the past polls, there are none (yet)
+                </p>
+            </div>                                                                       
+            {% include "footer.html" %}
+        </span>
+    </body>                                                                          
+</html>     

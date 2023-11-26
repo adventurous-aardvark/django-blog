@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+    <span style="font-family:Arial,Helvetica,sans-serif">
+        <h1><u>Polls</u></h1>
+        {% for poll in polls %}
+            <div id=class="poll">
+            <h3>
+                {{ poll.pk }}: <a href="{% url 'polls:poll_detail' poll.pk %}">{{ poll.title }}</a>
+            </h3>
+            </div>
+        {% endfor %}
+        {% include "footer.html" %}
+    </span>
+{% endblock %}

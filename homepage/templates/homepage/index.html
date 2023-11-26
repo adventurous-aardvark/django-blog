@@ -1,0 +1,27 @@
+<!DOCTYPE html>                                                                      
+<html>                                                                               
+    <title>Assignment Social Network</title>                                                               
+    <head></head>                                                                    
+    <body>      
+        <span style="font-family:Arial,Helvetica,sans-serif">                                                                     
+            <div id="container">   
+                <img alt="A random picture" src="https://picsum.photos/400/125"
+                     style="height:124px; width:600px" />
+                <h1>Welcome to</h1>
+                {% include "homepage/title.html" %} 
+    
+                <p>&nbsp;</p>
+                <hr />
+                <h2><strong>What you can do on this simple site is to</strong></h2>
+                <p>
+                    &nbsp;&nbsp;&nbsp; &gt;&gt; Participate in a poll --&gt; 
+                        <a href="{% url 'polls:index' %}">here</a><br>
+                    &nbsp;&nbsp;&nbsp; &gt;&gt; Post and view blog entries --&gt;
+                        <a href="{% url 'blogs:index' %}">here</a><br>
+                </p>
+                <p>But first, you will need to login ... somehow</p>                                                      
+            </div>                                                                       
+            {% include "footer.html" %}
+        </span>
+    </body>                                                                          
+</html>     

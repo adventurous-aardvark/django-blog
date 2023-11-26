@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+    <span style="font-family:Arial,Helvetica,sans-serif">
+        <h1>Poll: {{ poll.title }}</h1>
+        <div class="poll-body">
+        {# <pre>{{ poll.text }}</pre> #}
+        {{ poll.text|linebreaks }}
+        </div>
+        </div class="poll-score">
+            Current score: {{ poll.score }}
+        </div>
+        <div class="poll-vote">
+            <form method="POST">
+                {% csrf_token %}
+                <input type="submit" name="vote" value="Yes"> 
+                <input type="submit" name="vote" value="No"> 
+            </form>
+        </div>
+        {% include "footer.html" %}
+    </span>
+    {% endblock %}
