@@ -5,13 +5,11 @@ from polling.models import Poll
 
 
 def list_view(request):
-
     context = {'polls': Poll.objects.all}
     return render(request, 'polling/list.html', context)
 
 
 def detail_view(request, poll_id):
-
     try:
         poll = Poll.objects.get(pk=poll_id)
 
@@ -22,7 +20,7 @@ def detail_view(request, poll_id):
         if request.POST.get('vote') == 'Yes':
             poll.score += 1
         else:
-            poll.score -= 1 # Since binary choice no need to check for bad data
+            poll.score -= 1  # Since binary choice no need to check for bad data
         poll.save()
     context = {'poll': poll}
 
@@ -30,8 +28,6 @@ def detail_view(request, poll_id):
 
 
 def index(request):
-
     context = {'polls': Poll.objects.all}
 
     return render(request, 'polling/index.html', context)
-

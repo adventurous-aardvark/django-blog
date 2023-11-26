@@ -7,11 +7,11 @@ from django.views.decorators.csrf import csrf_protect
 from blogging.models import Post
 from blogging.forms import BlogForm
 
+
 @csrf_protect
 def detail_view(request, username):
-
     try:
-        user = User.objects.get(username = username)
+        user = User.objects.get(username=username)
         if (user.first_name == "") or (user.last_name == ""):
             show_name = user.username
         else:
@@ -24,30 +24,29 @@ def detail_view(request, username):
         if request.user.is_authenticated:
             form = BlogForm(request.POST)
             if form.is_valid():
-                new_post = Post(title = form.cleaned_data['title'],
-                                text = form.cleaned_data['text'],
-                                author = request.user)
+                new_post = Post(title=form.cleaned_data['title'],
+                                text=form.cleaned_data['text'],
+                                author=request.user)
                 new_post.save()
-    
+
         else:
             return HttpResponseForbidden('Not authorized')
 
-    context = {'show_as' : show_name,
-               'user'    : user,
-               'blogs'   : Post.objects.all(),
-               "form"    : BlogForm()}
-    
+    context = {'show_as': show_name,
+               'user': user,
+               'blogs': Post.objects.all(),
+               "form": BlogForm()}
+
     return render(request, 'blogging/detail.html', context)
 
 
 def index(request):
-
     user_list = []
     User = get_user_model()
     for person in User.objects.values():
-        user_list.append({'username'  : person['username'],
-                          'first_name': person['first_name'],                            
-                          'last_name' : person['last_name']})       
+        user_list.append({'username': person['username'],
+                          'first_name': person['first_name'],
+                          'last_name': person['last_name']})
 
     context = {'users': user_list, 'teststr': 'hello world'}
 
