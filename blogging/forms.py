@@ -4,7 +4,6 @@ from blogging.models import Category
 
 
 class BlogForm(forms.Form):
-
     CATEGORY_CHOICES = []
     PUBLISH_CHOICE = [('Y', 'Yes'), ('N', 'No')]
 
@@ -22,9 +21,9 @@ class BlogForm(forms.Form):
                                             'style': 'width: 600px; height: 100px;',
                                             'class': 'form-control'}))
 
-    publish = BooleanField(label = 'publish',
-                           required = False,
-                           initial = True)
+    publish = BooleanField(label='publish',
+                           required=False,
+                           initial=True)
 
     # categories = \
     #    forms.ModelMultipleChoiceField(label = 'categories',

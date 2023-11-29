@@ -13,18 +13,18 @@ def detail_view(request, author: str, pk_id: int):
     """
     Simple blog entry view for users not the author of the blog post.
     """
-    
+
     try:
         user = User.objects.get(username=author)
         if (user.first_name == "") or (user.last_name == ""):
             show_name = user.username
         else:
             show_name = f"{user.first_name} {user.last_name}"
-        post = Post.objects.get(pk = pk_id)
+        post = Post.objects.get(pk=pk_id)
 
     except User.DoesNotExist:
         return HttpResponseNotFound('User or post not found')
-        
+
     if request.method == "POST":
         if request.user.is_authenticated:
             form = BlogForm(request.POST)
@@ -40,7 +40,7 @@ def detail_view(request, author: str, pk_id: int):
                 post.update_at = timezone.now()
                 post.save()
             else:
-                print ('*** NOT VALID ***')
+                print('*** NOT VALID ***')
 
         else:
             return HttpResponseForbidden('Not authorized')
@@ -52,9 +52,9 @@ def detail_view(request, author: str, pk_id: int):
         form = BlogForm(initial={'title': post.title,
                                  'text': post.text,
                                  'publish': publish})
-#        ,
-#                                 'categories': post.categories})
-    
+    #        ,
+    #                                 'categories': post.categories})
+
     context = {'show_as': show_name,
                'user': user,
                'post': post,
@@ -78,7 +78,6 @@ def index(request):
 
 @csrf_protect
 def list_view(request, author: str):
-    
     try:
         user = User.objects.get(username=author)
         if (user.first_name == "") or (user.last_name == ""):
@@ -91,22 +90,22 @@ def list_view(request, author: str):
 
     if request.method == "POST":
         if request.user.is_authenticated:
-            form = BlogForm(request.POST, initial={'publish':'Yes'})
+            form = BlogForm(request.POST, initial={'publish': 'Yes'})
             if form.is_valid():
                 if form.cleaned_data['publish'] == 'Y':
                     publish_date = timezone.now()
                 else:
                     publish_date = None
-                
+
                 new_post = Post(title=form.cleaned_data['title'],
                                 text=form.cleaned_data['text'],
                                 author=request.user,
-                                published_at = publish_date)
+                                published_at=publish_date)
                 new_post.save()
 
         else:
             return HttpResponseForbidden('Not authorized')
-    
+
     if request.user.username == author:
         post_collection = Post.objects.filter(author=user)
         posts = post_collection.order_by('-created_at')
@@ -115,7 +114,6 @@ def list_view(request, author: str):
             Post.objects.exclude(published_at__exact=None).filter(author=user)
         posts = post_collection.order_by('-published_at')
     post_count = posts.count()
-    
 
     context = {'show_as': show_name,
                'user': user,
@@ -130,7 +128,7 @@ def stub_view(request, *args, **kwargs):
     """
     Diagnostic stub demonstrated in class.
     """
-    
+
     body = "Stub View\n\n"
     if args:
         body += "Args:\n"
@@ -139,5 +137,5 @@ def stub_view(request, *args, **kwargs):
     if kwargs:
         body += "Kwargs:\n"
         body += "\n".join([f"\t{a}" for a in kwargs.items()])
-    
-    return HttpResponse(body, content_type = "text/plain")
+
+    return HttpResponse(body, content_type="text/plain")
