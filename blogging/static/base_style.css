@@ -1,0 +1,53 @@
+ /* Ref base source https://www.techwithtim.net/tutorials/django/adding-a-sidebar */
+ 
+.body {                                                                          
+    max-width: 760px;                                                            
+    margin: auto;                                                                
+}                                                                                
+                                                                                 
+.hr {                                                                            
+    width: 80%                                                                   
+}                                                                                
+
+.sidenav {
+    height: 100%;
+    width: 100px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #7f7f7f;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+ 
+.sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    color: #ffffff;
+    display: block;
+}
+ 
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+ 
+.content {
+    margin-left: 160px;                                                          
+    margin-right: 60px;                                                          
+    padding: 10px 10px;                                                          
+    font-family: Arial,Helvetica,sans-serif;                                     
+    font-size: 16px;                                                             
+}
+
+.footer {
+    position: fixed;
+    width: 100%;
+    margin: auto;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    left: 160px;
+    bottom: 10px;
+}

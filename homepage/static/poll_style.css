@@ -1,0 +1,26 @@
+table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    /* border: 3px solid purple; */
+}
+
+thead th:nth-child(1) {
+    text-align: center;
+    width: 10%;
+}
+
+thead th:nth-child(2) {
+    text-align: left;
+    width: 90%;
+}
+
+tbody td:nth-child(1) {
+    text-align: center;
+}
+
+
+th, td {
+    padding-left, padding-right: 5px;
+}
+

@@ -1,47 +1,42 @@
-<!DOCTYPE html>                                                                      
-<html>                                                                               
-    <title>Blogging About</title>
-    <head></head>                                                                    
-    <body>                                                                           
-        <div id="image">   
-            <p><img alt="Free for use per https://pixabay.com/service/license-summary/"
-                src="https://cdn.pixabay.com/photo/2016/11/22/19/25/adult-1850177_1280.jpg"
-                style="height:124px; width:600px" /></p>
-        </div>
+{% extends "base.html" %}
 
-        <div id="page-title">
-            {% include "blogging/title.html" %} 
-            <p>&nbsp;</p>
-        </div>
-        <span style="font-family:Arial,Helvetica,sans-serif">
-            <div id="preamble">
-                <p>
-                    Greetings and welcome to the collection of writings from a
-                    number of authors who espouse any number of thoughts be it from
-                    fanciful to serious and thought provoking. Basically a set of
-                    free flowing thoughts called, in this age, blogs. Enjoy!
-                </p>
+{% block head %}
+	<title>{% block title %}Assignment Social Network - Blogging About{% endblock %}</title>
+{% endblock %}
+ 
+{% block content %}
+    <img alt="Free for use per https://pixabay.com/service/license-summary/"
+        src="https://cdn.pixabay.com/photo/2016/11/22/19/25/adult-1850177_1280.jpg"
+        style="height:124px; width:600px" />
+
+    {% include "blogging/title.html" %} 
+    <p>&nbsp;</p>
+    <hr />
+
+    <p>
+        Greetings and welcome to the collection of writings from a
+        number of authors who espouse any number of thoughts be it from
+        fanciful to serious and thought provoking. Basically a set of
+        free flowing thoughts called, in this age, blogs. Enjoy!
+    </p>
+
+    <h3><u>Current Blogs</u></h3>
+    <div id="blog-list">
+        {% for user in users %}
+            <div class="{{ user.username }}.blog-link">
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                {% if user.first_name == "" %}
+                    -
+                {% else %}
+                    {{ user.first_name }}
+                {% endif %}
+                {% if user.last_name == "" %}
+                    -
+                {% else %}
+                    {{ user.last_name }}
+                {% endif %}
+                &nbsp;(<a href="{% url 'blogs:blog_entries' user.username %}">{{ user.username }}</a>)
             </div>
-            <h2><u>Current Blogs</u></span></h2>
-            <div id="blog-list">
-                {% for user in users %}
-                    <div id={{ user.username }}>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        {% if user.first_name == "" %}
-                            -
-                        {% else %}
-                            {{ user.first_name }}
-                        {% endif %}
-                        {% if user.last_name == "" %}
-                            -
-                        {% else %}
-                            {{ user.last_name }}
-                        {% endif %}
-                        &nbsp;(<a href="{% url 'blogs:blog_detail' user.username %}">{{ user.username }}</a>)
-                    </div>
-                {% endfor %}
-            </div>
-            {% include 'footer.html' %}
-        </span>
-    </body>
-</html>
+        {% endfor %}
+    </div>
+{% endblock %}

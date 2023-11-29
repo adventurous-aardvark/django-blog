@@ -1,0 +1,19 @@
+table {                                                                     
+    table-layout: fixed;                                                     
+    width: 100%;                                                             
+    border-collapse: collapse;                                               
+    border: 3px solid purple;                                                
+}                                                                            
+                                                                             
+thead th:nth-child(1) {                                                      
+    width: 10%;                                                              
+}                                                                            
+                                                                             
+thead th:nth-child(2) {                                                      
+    width: 90%;                                                              
+}                                                                            
+                                                                             
+th, td {                                                                     
+    padding: 20px;                                                           
+}                                                                            
+

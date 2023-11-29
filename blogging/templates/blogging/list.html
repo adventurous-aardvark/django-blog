@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block head %}
+	<title>{% block title %}The Blog of {{ show_as }}{% endblock %}</title>
+	<link rel="stylesheet" href={% static "blog_update.css" %}>
+{% endblock %}
+
+{% block content %}
+    {% if request.user.username|stringformat:"s" == user.username|stringformat:"s" %}
+        <h2>Add new blog entry for {{ show_as }}:</h2>
+        <div id="new-blog-entry">
+            <form action="{% url 'blogs:blog_entries' user.username %}" method="post">
+                {% csrf_token %}
+                <div>
+                    <label for="id_title">Title:&nbsp;</label>{{ form.title }}
+                </div>
+                <div>
+                    <label for="id_text">Text:&nbsp;</label>{{ form.text }}
+                </div>
+                <div>
+                    {{ choice.tag }}
+                    <label for="id_publish">Publish:&nbsp;</label>{{ form.publish }}
+                </div>
+                <div>
+                    <input type="submit" value="Submit">
+                </div>
+            </form>
+        </div>
+    {% endif %}
+
+    <div id="blog">
+        <p><h2>The {{ show_as }} blog to date:</h2></p>
+        {% if post_count != 0 %}
+            {% for post in posts %}
+                <p>
+                <span style="font-size:12px; background-color:#ffcc00">
+                    <strong>Created:</strong> {{ post.created_at|date:"r" }}
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <strong>Last updated:</strong>
+                {% if post.update_at %}
+                    {{ post.update_at|date:"r" }}
+                {% else %}
+                    Original
+                {% endif %}
+                {% if not post.published_at %}
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <strong><span style="color:#ff0000">Unpublished</span></strong>
+                {% endif %}
+                </span>
+                <br>
+                <strong>Title:</strong>
+                <a href="{% url 'blogs:blog_detail' user.username post.pk %}">{{ post.title }}</a><br>
+                {% for category in post.categories.all %}
+                    <span style="font-size:12px; background-color:#00ffff">
+                    {{ category.name }}
+                    </span>&nbsp;
+                {% endfor %}
+                </p>
+            {% endfor %}
+            <p>
+            ** {{ post_count }} entr{{ post_count|pluralize:"y,ies" }}
+            found **
+            </p>
+        {% else %}
+            <div id="nothing-found">
+                <img alt="Free for use per https://pixabay.com/service/license-summary/"
+                    src="https://cdn.pixabay.com/photo/2015/05/03/16/05/wall-751342_1280.jpg"
+                    style="height:300px; width:600px" />
+                <p>Looks like this author has not written anything yet</p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+    

@@ -1,39 +1,60 @@
-<!DOCTYPE html>                                                                      
-<html>                                                                               
-    <title>Polls and More</title>
-    <head>
-    </head>                                                                    
-    <body>                                                                           
-        <div id="container">   
-            <div class="crop">
-                <img alt="Polling by Nick Youngson CC BY-SA 3.0 Alpha Stock Images"
-                src="https://www.picpedia.org/highway-signs/images/polling.jpg",
-                style="height:125px; width:600px"
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block head %}
+	<title>{% block title %}Assignment Social Network - Polls and More{% endblock %}</title>
+	<link rel="stylesheet" href={% static "poll_style.css" %}>
+{% endblock %}
+ 
+{% block content %}
+    <div class="cropped">
+        <img alt="Polling by Nick Youngson CC BY-SA 3.0 Alpha Stock Images"
+            src="https://www.picpedia.org/highway-signs/images/polling.jpg",
+            style="height:125px; width:600px"
+    </div>
+
+    {% include "polling/title.html" %} 
+    <p>&nbsp;</p>
+    <hr />
+
+    <p>
+        Here are a collection of polls, be it one or perhaps more. Please
+        feel free to explore what people are curious about.
+    </p>
+    
+    <p>
+    {% with poll_count=polls|length %}
+        {% if poll_count == 0 %}
+            Currently there are no active polls available.
+        {% elif poll_count == 1 %}
+            Currently there is one active poll
+            {# This is a kludge to get the single poll item #}
+            {% for poll in polls %}                        
+                <a href="{% url 'polls:poll_detail' poll.pk %}">
+                    available to partake of</a><br>
+            {% endfor %} 
+        {% else %}
+            <h3><u>Current Polls</u></h3>
+            <div class="poll.list-table">
+                <table>
+                    <thead>
+                        <th>Poll #</th>
+                        <th>Subject</th>
+                    </thead>
+                    </tbody>
+                        {% for poll in polls %}
+                            <tr>
+                                <td heigth="10"><a href="{% url 'polls:poll_detail' poll.pk %}">{{ poll.pk}}</a></td>
+                                <td heigth="10">{{ poll.title }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-            {% include "polling/title.html" %} 
-            <p>&nbsp;</p>
-            <span style="font-family:Arial,Helvetica,sans-serif">
-                <p>
-                Currently there
-                {% with poll_count=polls|length %}
-                    {% if poll_count == 0 %}
-                        {{ 'are no active polls available' }}
-                    {% elif poll_count == 1 %}
-                        is one active poll
-                        {# This is a kludge to get the single poll item #}
-                        {% for poll in polls %}                        
-                            <a href="{% url 'polls:poll_detail' poll.pk %}">
-                                available to partake of</a><br>
-                        {% endfor %} 
-                    {% else %}
-                        are {{polls|length}} actve polls which are 
-                        <a href="{% url 'polls:poll_detail' %}">available to partake of</a><br>
-                    {% endif %}
-                {% endwith %}
-                Of the past polls, there are none (yet)
-                </p>
-            </div>                                                                       
-            {% include "footer.html" %}
-        </span>
-    </body>                                                                          
-</html>     
+        {% endif %}
+    {% endwith %}
+    <br>Of the past polls, there are none (yet)
+    </p>
+
+{% endblock %}

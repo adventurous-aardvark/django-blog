@@ -1,21 +1,25 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
+{% block head %}
+	<title>{% block title %}Assignment Social Network - Poll Detail {% endblock %}</title>
+{% endblock %}
+
 {% block content %}
-    <span style="font-family:Arial,Helvetica,sans-serif">
-        <h1>Poll: {{ poll.title }}</h1>
-        <div class="poll-body">
-        {# <pre>{{ poll.text }}</pre> #}
-        {{ poll.text|linebreaks }}
-        </div>
-        </div class="poll-score">
-            Current score: {{ poll.score }}
-        </div>
-        <div class="poll-vote">
-            <form method="POST">
-                {% csrf_token %}
-                <input type="submit" name="vote" value="Yes"> 
-                <input type="submit" name="vote" value="No"> 
-            </form>
-        </div>
-        {% include "footer.html" %}
-    </span>
-    {% endblock %}
+    <h1>Poll: {{ poll.title }}</h1>
+    
+    {{ poll.text|linebreaks }}
+
+    Please make a choice between
+    <div class="poll-vote">
+        <form method="POST">
+            {% csrf_token %}
+            <input type="submit" name="vote" value="Yes"> 
+            <input type="submit" name="vote" value="No"> 
+        </form>
+    </div>
+    <br>
+    The current score is: <strong>{{ poll.score }}</strong>
+    <br>
+    <br>
+    <a href={{ request.META.HTTP_REFERER }}>Return to previous page</a>
+{% endblock %}
