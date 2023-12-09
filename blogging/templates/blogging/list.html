@@ -20,6 +20,9 @@
                     <label for="id_text">Text:&nbsp;</label>{{ form.text }}
                 </div>
                 <div>
+                    <label for="id_category">Category<br>Choices:&nbsp;</label>{{ form.category }}
+                </div>
+                <div>
                     {{ choice.tag }}
                     <label for="id_publish">Publish:&nbsp;</label>{{ form.publish }}
                 </div>
@@ -32,44 +35,36 @@
 
     <div id="blog">
         <p><h2>The {{ show_as }} blog to date:</h2></p>
-        {% if post_count != 0 %}
-            {% for post in posts %}
-                <p>
-                <span style="font-size:12px; background-color:#ffcc00">
-                    <strong>Created:</strong> {{ post.created_at|date:"r" }}
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <strong>Last updated:</strong>
-                {% if post.update_at %}
-                    {{ post.update_at|date:"r" }}
-                {% else %}
-                    Original
-                {% endif %}
-                {% if not post.published_at %}
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <strong><span style="color:#ff0000">Unpublished</span></strong>
-                {% endif %}
-                </span>
-                <br>
-                <strong>Title:</strong>
-                <a href="{% url 'blogs:blog_detail' user.username post.pk %}">{{ post.title }}</a><br>
-                {% for category in post.categories.all %}
-                    <span style="font-size:12px; background-color:#00ffff">
-                    {{ category.name }}
-                    </span>&nbsp;
-                {% endfor %}
-                </p>
+        {% if request.user.username == user.username %}
+            {% for post in posts_created %}
+                {% include "post_entry.html" %}
+            {% empty %}
+                <div id="nothing-found">
+                    <img alt="Free for use per https://pixabay.com/service/license-summary/"
+                        src="https://cdn.pixabay.com/photo/2015/05/03/16/05/wall-751342_1280.jpg"
+                        style="height:300px; width:600px" />
+                    <p>Looks like this author has not written anything yet</p>
+                </div>
             {% endfor %}
             <p>
-            ** {{ post_count }} entr{{ post_count|pluralize:"y,ies" }}
+            ** {{ post_count_created }} entr{{ post_count_created|pluralize:"y,ies" }}
             found **
             </p>
         {% else %}
-            <div id="nothing-found">
-                <img alt="Free for use per https://pixabay.com/service/license-summary/"
-                    src="https://cdn.pixabay.com/photo/2015/05/03/16/05/wall-751342_1280.jpg"
-                    style="height:300px; width:600px" />
-                <p>Looks like this author has not written anything yet</p>
-            </div>
+             {% for post in posts_published %}
+                 {% include "post_entry.html" %}
+             {% empty %}
+                 <div id="nothing-found">
+                     <img alt="Free for use per https://pixabay.com/service/license-summary/"
+                         src="https://cdn.pixabay.com/photo/2015/05/03/16/05/wall-751342_1280.jpg"
+                         style="height:300px; width:600px" />
+                     <p>Looks like this author has not written anything yet</p>
+                 </div>
+             {% endfor %}
+             <p>
+             ** {{ post_count_published }} entr{{ post_count_published|pluralize:"y,ies" }}
+             found **
+             </p>
         {% endif %}
     </div>
 {% endblock %}

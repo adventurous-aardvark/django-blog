@@ -1,10 +1,8 @@
 from django import forms
-from django.forms import BooleanField, CharField, ChoiceField, Textarea, TextInput
-from blogging.models import Category
+from django.forms import BooleanField, CharField, MultipleChoiceField, Textarea, TextInput
 
 
 class BlogForm(forms.Form):
-    CATEGORY_CHOICES = []
     PUBLISH_CHOICE = [('Y', 'Yes'), ('N', 'No')]
 
     title = CharField(max_length=128,
@@ -25,7 +23,16 @@ class BlogForm(forms.Form):
                            required=False,
                            initial=True)
 
-    # categories = \
-    #    forms.ModelMultipleChoiceField(label = 'categories',
-    #                                   queryset = Category.objects.all(),
-    #                                   initial = 0)
+    category = MultipleChoiceField(label='category',
+                                   required=False,
+                                   choices=())
+
+    def __init__(self, *args, **kwargs):
+        category_choices = kwargs.pop('category_choices', ())
+        initial_set = kwargs.pop('initial_tags', [])
+        super().__init__(*args, **kwargs)
+        self.fields['category'].choices = category_choices
+        self.fields['category'].initial = initial_set
+
+    class Meta:
+        fields = ('title', 'text', 'publish', 'category')

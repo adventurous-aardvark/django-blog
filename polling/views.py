@@ -4,6 +4,7 @@ from django.shortcuts import render
 from polling.models import Poll
 
 
+
 def list_view(request):
     context = {'polls': Poll.objects.all}
     return render(request, 'polling/list.html', context)
