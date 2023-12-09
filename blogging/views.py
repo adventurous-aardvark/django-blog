@@ -1,5 +1,5 @@
 """
-    Application views for blogs
+    Application views for blogs using classes.
 """
 
 from html import escape
