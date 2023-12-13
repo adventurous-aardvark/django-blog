@@ -1,7 +1,8 @@
+# Feed pattern from https://ordinarycoders.com/blog/article/django-rss-feeds
+
 from django.urls import path
 # noinspection PyUnresolvedReferences, PyPackageRequirements
 from blogging.views import BlogDetailView, BlogIndexView, BlogListView
-
 
 app_name = "blogs"
 urlpatterns = [

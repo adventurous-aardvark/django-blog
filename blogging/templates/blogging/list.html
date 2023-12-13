@@ -34,7 +34,8 @@
     {% endif %}
 
     <div id="blog">
-        <p><h2>The {{ show_as }} blog to date:</h2></p>
+        <p><h2>The {{ show_as }} blog to date (RSS):</h2></p>
+        {# Difference in below is what is the sorted blog source -- created or published #}
         {% if request.user.username == user.username %}
             {% for post in posts_created %}
                 {% include "post_entry.html" %}
@@ -47,8 +48,16 @@
                 </div>
             {% endfor %}
             <p>
-            ** {{ post_count_created }} entr{{ post_count_created|pluralize:"y,ies" }}
-            found **
+            <div style="display: flex; justify-content: space-between;">
+                <span>
+                    ** {{ post_count_created }} entr{{ post_count_created|pluralize:"y,ies" }}
+                    found **
+                </span>
+                <span>
+                    <a href={% url 'rss_blog_author_feed' user.username %}>
+                        RSS feed for {{ user.username }}</a>
+                </span>
+            </div>
             </p>
         {% else %}
              {% for post in posts_published %}
@@ -62,9 +71,17 @@
                  </div>
              {% endfor %}
              <p>
-             ** {{ post_count_published }} entr{{ post_count_published|pluralize:"y,ies" }}
-             found **
-             </p>
+             <div style="display: flex; justify-content: space-between;">
+                <span>
+                    ** {{ post_count_published }} entr{{ post_count_published|pluralize:"y,ies" }}
+                    found **
+                </span>
+                <span>
+                    <a href={% url 'rss_blog_author_feed' user.username %}>
+                        RSS feed for {{ user.username }}</a>
+                </span>
+            </div>
+            </p>
         {% endif %}
     </div>
 {% endblock %}

@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-
+from blogging.feeds import AtomSiteBlogFeed, RssBlogFeed
 
 urlpatterns = [
     path("", include("homepage.urls", namespace='home')),
@@ -24,4 +24,7 @@ urlpatterns = [
     path("poll/", include("polling.urls", namespace='polls')),
     path("admin/", admin.site.urls),
     path("accounts/", include("django.contrib.auth.urls")),
+    path("atom/blog", AtomSiteBlogFeed(), name="atom_blog_feed"),
+    path("rss/blog", RssBlogFeed(), name="rss_blog_feed"),
+    path("rss/blog/<str:author>", RssBlogFeed(), name="rss_blog_author_feed"),
 ]
